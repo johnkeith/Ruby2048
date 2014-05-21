@@ -5,7 +5,7 @@ require 'pry'
 
 # insert a 2 or a 4 into a random place on the board - DONE
 
-# ask for user input - a, s, w, or d 
+# ask for user input - a, s, w, or d
 
 # move pieces on board
 
@@ -19,10 +19,10 @@ game_board = [[" ", " ", " ", " "],
               [" ", " ", " ", " "],
               [" ", " ", " ", " "]]
 
-test_board = [["2", "2", " ", "4"],
-              ["2", " ", "4", " "],
-              [" ", "2", " ", " "],
-              [" ", "4", " ", " "]]
+# test_board = [["2", "2", " ", "4"],
+#               ["2", " ", "4", " "],
+#               [" ", "2", " ", " "],
+#               [" ", "4", " ", " "]]
 
 # p test_board
 
