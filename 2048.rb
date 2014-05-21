@@ -1,5 +1,6 @@
 require 'pry'
 require 'rbconfig'
+require 'io/console'
 # 2048 command line
 
 # create an array of arrays for game board - DONE
@@ -41,7 +42,7 @@ def main_game(start_board)
     puts "Score = #{score_board(start_board)}"
 
     # ask for move
-    start_board=ask_for_move(start_board)
+    start_board = ask_for_move(start_board)
     start_board = insert_new(start_board)
   end
 end
@@ -79,16 +80,32 @@ def insert_new(board)
   board
 end
 
+def read_char
+  STDIN.echo = false
+  STDIN.raw!
+ 
+  input = STDIN.getc.chr
+  if input == "\e" then
+    input << STDIN.read_nonblock(3) rescue nil
+    input << STDIN.read_nonblock(2) rescue nil
+  end
+ensure
+  STDIN.echo = true
+  STDIN.cooked!
+ 
+  return input
+end
+
 def ask_for_move(board)
   puts "Which way do you want to move? (Press 'A', 'S', 'D' or 'W', or 'Q' to quit)"
-  move = gets.chomp.upcase
+  move = read_char
   case move
-    when "A" then board_after_move=move_left(board)
-    when "D" then board_after_move=move_right(board)
-    when "S" then board_after_move=move_down(board)
-    when "W" then board_after_move=move_up(board)
-    when "Q" then abort
-    else ask_for_move(board)
+    when "A", "\e[D" then board_after_move = move_left(board)
+    when "D", "\e[C" then board_after_move = move_right(board)
+    when "S", "\e[B" then board_after_move = move_down(board)
+    when "W", "\e[A" then board_after_move = move_up(board)
+    when "Q", "\e" then abort
+    else board_after_move = board
   end
   board_after_move
 end
