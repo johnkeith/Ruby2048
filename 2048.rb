@@ -1,4 +1,5 @@
 require 'pry'
+require 'rbconfig'
 # 2048 command line
 
 # create an array of arrays for game board - DONE
@@ -30,10 +31,9 @@ game_board = [[" ", " ", " ", " "],
 
 # p test_board.transpose.transpose
 
-
-
 def main_game(start_board)
   while true
+    clear_screen
     # display board
     start_board.each do |row|
       puts row.join(" | ")
@@ -43,6 +43,17 @@ def main_game(start_board)
     # ask for move
     start_board=ask_for_move(start_board)
     start_board = insert_new(start_board)
+  end
+end
+
+def clear_screen
+  host_os = RbConfig::CONFIG['host_os']
+
+  case host_os
+    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+      system "cls"
+    when /darwin|mac os|linux|solaris|bsd/
+      puts "\e[H\e[2J"
   end
 end
 
@@ -69,13 +80,14 @@ def insert_new(board)
 end
 
 def ask_for_move(board)
-  puts "Which way do you want to move? (Press 'A', 'S', 'D' or 'W')"
+  puts "Which way do you want to move? (Press 'A', 'S', 'D' or 'W', or 'Q' to quit)"
   move = gets.chomp.upcase
   case move
     when "A" then board_after_move=move_left(board)
     when "D" then board_after_move=move_right(board)
     when "S" then board_after_move=move_down(board)
     when "W" then board_after_move=move_up(board)
+    when "Q" then abort
     else ask_for_move(board)
   end
   board_after_move
