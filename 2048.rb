@@ -38,10 +38,20 @@ def main_game(start_board)
     start_board.each do |row|
       puts row.join(" | ")
     end
+    puts "Score = #{score_board(start_board)}"
+
     # ask for move
     start_board=ask_for_move(start_board)
     start_board = insert_new(start_board)
   end
+end
+
+def score_board(board)
+  score = 0
+  board.each do |row|
+    score += row.map(&:to_i).inject(:+)
+  end
+  score
 end
 
 def insert_new(board)
