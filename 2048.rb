@@ -1,4 +1,5 @@
 require 'pry'
+require 'rbconfig'
 # 2048 command line
 
 # create an array of arrays for game board - DONE
@@ -19,10 +20,10 @@ game_board = [[" ", " ", " ", " "],
               [" ", " ", " ", " "],
               [" ", " ", " ", " "]]
 
-# test_board = [["2", "2", " ", "4"],
-#               ["2", " ", "4", " "],
-#               [" ", "2", " ", " "],
-#               [" ", "4", " ", " "]]
+test_board = [["2", "2", " ", "4"],
+              ["2", " ", "4", " "],
+              [" ", "2", " ", " "],
+              [" ", "4", " ", " "]]
 
 # p test_board
 
@@ -30,18 +31,45 @@ game_board = [[" ", " ", " ", " "],
 
 # p test_board.transpose.transpose
 
-
-
 def main_game(start_board)
   while true
+    clear_screen
     # display board
-    start_board.each do |row|
-      puts row.join(" | ")
-    end
+
+    print_board(start_board)
+
+    puts "Score = #{score_board(start_board)}"
+
     # ask for move
-    start_board=ask_for_move(start_board)
+    start_board = ask_for_move(start_board)
     start_board = insert_new(start_board)
   end
+end
+
+def print_board(board)
+board.each do |row|
+    print "|"
+    row.each do |item|
+      if item.length == 1
+        print item + "   |"
+      elsif item.length == 2
+        print item + "  |"
+      elsif item.length == 3
+        print item + " |"
+      else
+        print item
+      end
+    end
+    puts
+  end
+end
+
+def score_board(board)
+  score = 0
+  board.each do |row|
+    score += row.map(&:to_i).inject(:+)
+  end
+  score
 end
 
 def insert_new(board)
@@ -59,15 +87,17 @@ def insert_new(board)
 end
 
 def ask_for_move(board)
-  puts "Which way do you want to move? (Press 'A', 'S', 'D' or 'W')"
+  puts "Which way do you want to move? (Press 'A', 'S', 'D' or 'W', or 'Q' to quit)"
   move = gets.chomp.upcase
   case move
     when "A" then board_after_move=move_left(board)
     when "D" then board_after_move=move_right(board)
     when "S" then board_after_move=move_down(board)
     when "W" then board_after_move=move_up(board)
+    when "Q" then abort
     else ask_for_move(board)
   end
+
   board_after_move
 end
 
@@ -156,7 +186,21 @@ def move_up(board)
   board.transpose
 end
 
+def clear_screen
+  host_os = RbConfig::CONFIG['host_os']
+
+  case host_os
+    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+      system "cls"
+    when /darwin|mac os|linux|solaris|bsd/
+      puts "\e[H\e[2J"
+  end
+end
+
 # ---- Main ---- #
 
+# pretty_print_board(test_board)
+
+#new_board = insert_new(game_board)
 
 
