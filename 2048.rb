@@ -60,7 +60,7 @@ board.each do |row|
         print item
       end
     end
-    puts 
+    puts
   end
 end
 
@@ -201,7 +201,6 @@ end
 
 # pretty_print_board(test_board)
 
-new_board = insert_new(game_board)
+#new_board = insert_new(game_board)
 
-main_game(new_board)
 
