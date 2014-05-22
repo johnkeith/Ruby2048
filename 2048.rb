@@ -158,7 +158,5 @@ end
 
 # ---- Main ---- #
 
-new_board = insert_new(game_board)
 
-main_game(new_board)
 
