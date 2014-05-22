@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>2048</title>
+    <!-- <link rel="stylesheet"  href="/home.css"> -->
+  </head>
+  <body>
+    <h1>2048</h1>
+
+    <p>
+      <table>
+        <% @board.each do |row| %>
+          <tr>
+            <% row.each do |cell| %>
+              <td><%= cell %> </td>
+            <% end %>
+          </tr>
+        <% end %>
+      <table>
+    </p>
+  </body>
+</html>
