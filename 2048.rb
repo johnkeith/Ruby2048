@@ -1,5 +1,6 @@
 require 'pry'
 require 'rbconfig'
+require 'io/console'
 # 2048 command line
 
 # create an array of arrays for game board - DONE
@@ -86,16 +87,30 @@ def insert_new(board)
   board
 end
 
+def get_input
+  input = ""
+  valid = ["w", "a", "s", "d", "q"]
+  while !valid.include?(input) do
+    input = STDIN.getch
+    if input == "\e"
+      abort "escaped"
+    end
+  end
+  input
+end
+
 def ask_for_move(board)
   puts "Which way do you want to move? (Press 'A', 'S', 'D' or 'W', or 'Q' to quit)"
-  move = gets.chomp.upcase
+  
+  move = get_input.upcase
+
+  # move = gets.chomp.upcase
   case move
     when "A" then board_after_move=move_left(board)
     when "D" then board_after_move=move_right(board)
     when "S" then board_after_move=move_down(board)
     when "W" then board_after_move=move_up(board)
     when "Q" then abort
-    else ask_for_move(board)
   end
 
   board_after_move
@@ -201,6 +216,6 @@ end
 
 # pretty_print_board(test_board)
 
-#new_board = insert_new(game_board)
+new_board = insert_new(game_board)
 
-
+main_game = main_game(new_board)
